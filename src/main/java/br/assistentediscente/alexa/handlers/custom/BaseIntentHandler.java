@@ -15,9 +15,13 @@ import static br.assistentediscente.alexa.enums.SystemMessage.*;
 
 public abstract class BaseIntentHandler {
 
+    private final ApiAssistenteDiscente apiAssistenteDiscente;
+
+    public BaseIntentHandler(ApiAssistenteDiscente apiAssistenteDiscente) {
+        this.apiAssistenteDiscente = apiAssistenteDiscente;
+    }
 
     protected abstract String getCardTitle();
-
 
     /**
      * Responsavel por montar a resposta que será apresentada ao usuario
@@ -84,7 +88,7 @@ public abstract class BaseIntentHandler {
             if (haveParams && !validateParams(parameters))
                 return getMessage(SystemMessage.getRandomErrorParams());
 
-            return ApiAssistenteDiscente.getResponse(jwt, getIntentName(), parameters, haveParams);
+            return apiAssistenteDiscente.getResponse(jwt, getIntentName(), parameters, haveParams);
         }catch (Throwable throwable){
             return getMessage(ERROR_DEFAULT);
         }
@@ -98,7 +102,7 @@ public abstract class BaseIntentHandler {
             if (haveParams && !validateParams(parameters))
                 return getMessage(SystemMessage.getRandomErrorParams());
 
-            return ApiAssistenteDiscente.callService(jwt, serviceActivationName, parameters, haveParams);
+            return apiAssistenteDiscente.callService(jwt, serviceActivationName, parameters, haveParams);
         }catch (Throwable throwable){
             return getMessage(ERROR_DEFAULT);
         }

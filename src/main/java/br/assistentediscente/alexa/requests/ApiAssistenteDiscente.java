@@ -2,6 +2,8 @@ package br.assistentediscente.alexa.requests;
 
 import br.assistentediscente.alexa.enums.SystemMessage;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -10,9 +12,16 @@ import java.net.http.HttpResponse;
 
 import static br.assistentediscente.alexa.Messages.getMessage;
 
+@Component
 public class ApiAssistenteDiscente {
 
-    private final static Gson gson = new Gson();
+    @Value("${urlapiresponseintents}")
+    private  String urlAPIResponseIntents;
+
+    @Value("${urlapiresponseservices}")
+    private  String urlAPIResponseServices;
+
+    private final  Gson gson = new Gson();
     /**
      * Responsavel por fazer a chamada da API AD e trazer a resposta
      * @param jwt Token de conexão do usuario
@@ -20,14 +29,14 @@ public class ApiAssistenteDiscente {
      * @param parameters parametros passados pelo usuario que serão usados para busca/filtro dentro da API
      * @return Resposta da API
      */
-    public static String getResponse(String jwt, String intentName ,String[] parameters, boolean haveParams){
+    public String getResponse(String jwt, String intentName ,String[] parameters, boolean haveParams){
         try {
             String requestBody = buildRequestBody(parameters);
             if (haveParams && requestBody.equalsIgnoreCase("[]"))
                 return getMessage(SystemMessage.ERROR_PARAMS);
 
             HttpRequest postRequest = HttpRequest.newBuilder()
-                    .uri(new URI("https://uegenio.app.guiliano.com.br/api/make-response/"+intentName))
+                    .uri(new URI(urlAPIResponseIntents + intentName))
                     .headers("Authorization","Bearer "+jwt,
                             "Content-Type","application/json",
                             "Accept", "application/json")
@@ -47,7 +56,7 @@ public class ApiAssistenteDiscente {
         }
     }
 
-    private static String getResponse(HttpResponse<String> httpResponse) {
+    private String getResponse(HttpResponse<String> httpResponse) {
         if (httpResponse.statusCode() == 200) {
             return gson.fromJson(httpResponse.body(), ApiOkResponse.class).response();
         }
@@ -61,7 +70,7 @@ public class ApiAssistenteDiscente {
      * @param parameters  parametros passados pelo usuario que serão usados para busca/filtro dentro da API
      * @return corpo do request com os parametros passados pelo usuario em formato json
      */
-    private static String buildRequestBody(String[] parameters) {
+    private String buildRequestBody(String[] parameters) {
         if (parameters == null || parameters.length == 0) return "[]";
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[");
@@ -73,12 +82,12 @@ public class ApiAssistenteDiscente {
         return stringBuilder.toString();
     }
 
-    public static String callService(String jwt, String serviceActivationName, String[] parameters, boolean haveParams) {
+    public String callService(String jwt, String serviceActivationName, String[] parameters, boolean haveParams) {
         try {
             String requestBody = "{}"; //por enquanto apenas serviços sem passar parametros
 
             HttpRequest postRequest = HttpRequest.newBuilder()
-                    .uri(new URI("https://uegenio.app.guiliano.com.br/api/do-service/"+serviceActivationName))
+                    .uri(new URI(urlAPIResponseServices + serviceActivationName))
                     .headers("Authorization","Bearer "+jwt,
                             "Content-Type","application/json",
                             "Accept", "application/json")

@@ -1,6 +1,7 @@
 package br.assistentediscente.alexa.handlers.custom.impl;
 
 import br.assistentediscente.alexa.handlers.custom.BaseIntentHandler;
+import br.assistentediscente.alexa.requests.ApiAssistenteDiscente;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
@@ -10,6 +11,10 @@ import java.util.Optional;
 import static com.amazon.ask.request.Predicates.intentName;
 
 public class OverallAverageIntentHandler extends BaseIntentHandler implements RequestHandler {
+
+    public OverallAverageIntentHandler(ApiAssistenteDiscente apiAssistenteDiscente) {
+        super(apiAssistenteDiscente);
+    }
 
     @Override
     public boolean canHandle(HandlerInput input) {
