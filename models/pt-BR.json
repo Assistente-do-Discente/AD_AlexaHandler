@@ -1,0 +1,87 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "uegenio teste",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "GradeIntent",
+          "slots": [
+            {
+              "name": "semestre",
+              "type": "AMAZON.Ordinal"
+            }
+          ],
+          "samples": [
+            "quais notas do {semestre} semestre estão disponíveis",
+            "quais foram minhas notas no {semestre} semestre",
+            "quais são minhas notas do {semestre} semestre"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "HelloWorldIntent",
+          "slots": [],
+          "samples": [
+            "ola"
+          ]
+        },
+        {
+          "name": "DetailedGradeIntent",
+          "slots": [
+            {
+              "name": "semestre",
+              "type": "AMAZON.Ordinal"
+            }
+          ],
+          "samples": [
+            "quais foram minhas notas de va no {semestre} semestre"
+          ]
+        },
+        {
+          "name": "SingUpIntent",
+          "slots": [
+            {
+              "name": "cpfsenha",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "Cadastro {cpfsenha}",
+            "Login {cpfsenha}",
+            "Cadastrar {cpfsenha}"
+          ]
+        },
+        {
+          "name": "ScheduleIntent",
+          "slots": [
+            {
+              "name": "dia",
+              "type": "AMAZON.DATE"
+            }
+          ],
+          "samples": [
+            "{dia} quais são as minhas aulas",
+            "Quais aulas eu vou ter {dia}",
+            "Quais aulas eu tenho {dia} "
+          ]
+        }
+      ],
+      "types": []
+    }
+  }
+}
